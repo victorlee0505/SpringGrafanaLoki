@@ -19,7 +19,7 @@
 2. Run project as is. REST endpoint should be up.
     - POST: localhost:8080/api/cal  
     `{"op": "P", "left": "3", "right": "4"}`
-    -GET:  localhost:8080/api/mov
+    - GET:  localhost:8080/api/mov
 
 3. under project root
     $ cd docker
