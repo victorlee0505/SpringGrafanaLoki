@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+    ports:
+      - "9090:9090"
+  promtail:
+    image: grafana/promtail
+    container_name: promtail
+    volumes:
+      - ./promtail/promtail-docker-config.yaml:/etc/promtail/docker-config.yaml
+      - ../logs/loki.log:/var/log/spring.log
+    command: "--config.file=/etc/promtail/docker-config.yaml"
+    ports:
+      - "9080:9080"
+    depends_on:
+      - loki
+  loki:
+    image: grafana/loki
+    container_name: loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+      - ./grafana/panels.json:/var/lib/grafana/dashboards/panels.json
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - loki
