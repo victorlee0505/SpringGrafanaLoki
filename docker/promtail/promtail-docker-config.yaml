@@ -14,7 +14,7 @@ scrape_configs:
   - targets:
       - localhost
     labels:
-      job: varlogs
+      job: spring-app
       __path__: /var/log/spring.log
   pipeline_stages:
       - json:
