@@ -20,11 +20,16 @@
             <DefaultRolloverStrategy max="300"/>
         </RollingFile>
 
+        <File name="LOKI" fileName="./logs/loki.log" >
+            <JsonLayout complete="false" compact="true" eventEol="true" />
+        </File>
+
     </Appenders>
     <Loggers>
         <Root level="debug" >
             <AppenderRef ref="STDOUT" />
             <AppenderRef ref="DAILY_LOG" />
+            <AppenderRef ref="LOKI" level="INFO"/>
         </Root>
 
         <logger name="org.springframework.boot.autoconfigure.logging"           level="info" />
