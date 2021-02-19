@@ -33,6 +33,7 @@ services:
       - ./grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
       - ./grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
       - ./grafana/panels.json:/var/lib/grafana/dashboards/panels.json
+      - ./grafana/springboot-apm-dashboard_rev3.json:/var/lib/grafana/dashboards/panels2.json
     ports:
       - "3000:3000"
     depends_on:
