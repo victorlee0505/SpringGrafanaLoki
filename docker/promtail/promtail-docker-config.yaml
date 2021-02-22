@@ -20,5 +20,11 @@ scrape_configs:
       - json:
           expressions:
             level: level
+            threadId: threadId
+            message: message
+            loggerName: loggerName
       - labels:
           level:
+          threadId:
+          message:
+          loggerName:
