@@ -12,14 +12,6 @@ datasources:
     access: proxy
     url: http://loki:3100
     editable: true
-    jsonData:
-      maxLines: 1000
-      derivedFields:
-        # uid from jaeger definition here
-        - datasourceUid: my-jaeger
-          matcherRegex: ""traceId":"(\w+)""
-          name: TraceID
-          url: "$${__value.raw}"
   - name: loki-as-prometheus-datasource
     type: prometheus
     access: proxy
