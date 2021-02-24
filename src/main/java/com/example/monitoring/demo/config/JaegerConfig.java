@@ -2,20 +2,28 @@ package com.example.monitoring.demo.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import io.jaegertracing.Configuration;
+import io.jaegertracing.internal.JaegerTracer;
+import io.jaegertracing.internal.MDCScopeManager;
 import io.jaegertracing.internal.samplers.ConstSampler;
+import io.opentracing.Tracer;
 
-@org.springframework.context.annotation.Configuration
+@Configuration
 public class JaegerConfig {
 
     @Bean
-    public io.opentracing.Tracer initTracer() {
-        Configuration.SamplerConfiguration samplerConfig = new Configuration.SamplerConfiguration()
-                .withType(ConstSampler.TYPE).withParam(1);
-        return Configuration.fromEnv("spring-main")
-                .withSampler(samplerConfig).getTracer();
+    public Tracer initTracer() {
+
+        MDCScopeManager scopeManager = new MDCScopeManager.Builder().build();
+
+        JaegerTracer tracer = new JaegerTracer.Builder("spring-main")
+                                .withScopeManager(scopeManager)
+                                .withSampler(new ConstSampler(true))
+                                .build();
+
+        return tracer;
     }
 
     @Bean

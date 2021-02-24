@@ -10,7 +10,7 @@
 
         <RollingFile name="DAILY_LOG" fileName="logs/monitoring.log" filePattern="logs/monitoring_%d{yyyyMMdd}_%i.log">
             <PatternLayout>
-                <pattern>%d R=%r %-5p [%t] [%marker] %X %c.%M:%L - %m%n</pattern>
+                <pattern>%d R=%r %-5p [%t] [%marker] %X %c.%M:%L - %m traceId=%X{traceId} spanId=%X{spanId} %n</pattern>
             </PatternLayout>
             <Policies>
                 <SizeBasedTriggeringPolicy size="512 MB" />
@@ -21,7 +21,10 @@
         </RollingFile>
 
         <File name="LOKI" fileName="./logs/loki.log" >
-            <JsonLayout complete="false" compact="true" eventEol="true" />
+            <JsonLayout complete="false" compact="true" eventEol="true">
+                <KeyValuePair key="traceId" value="$${ctx:traceId}"/>
+                <KeyValuePair key="spanId" value="$${ctx:spanId}"/>
+            </JsonLayout>
         </File>
 
     </Appenders>
