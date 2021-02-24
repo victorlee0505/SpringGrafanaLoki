@@ -23,8 +23,12 @@ scrape_configs:
             threadId: threadId
             message: message
             loggerName: loggerName
+            traceId: traceId
+            spanId: spanId
       - labels:
           level:
           threadId:
           message:
           loggerName:
+          traceId:
+          spanId:
