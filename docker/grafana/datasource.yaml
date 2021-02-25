@@ -7,19 +7,28 @@ datasources:
     access: proxy
     url: http://prometheus:9090
     editable: true
+  - name: jaeger-datasource
+    type: jaeger
+    access: proxy
+    url: http://jaeger:16686
+    uid: jaeger123
+    editable: true
   - name: loki-datasource
     type: loki
     access: proxy
     url: http://loki:3100
     editable: true
-  - name: loki-as-prometheus-datasource
-    type: prometheus
-    access: proxy
-    url: http://loki:3100/loki
-    editable: true
-  - name: jaeger-datasource
-    uid: my-jaeger
-    type: jaeger
-    access: proxy
-    url: http://jaeger:16686
-    editable: true
+    jsonData:
+      maxLines: 1000
+      derivedFields:
+        - matcherRegex: "\"traceId\":\"(\\w+)\""
+          name: traceId
+          url: "$${__value.raw}"
+          datasourceUid: jaeger123
+        - matcherRegex: "\"spanId\":\"(\\w+)\""
+          name: spanId
+          url: "$${__value.raw}"
+          datasourceUid: jaeger123
+
+
+
