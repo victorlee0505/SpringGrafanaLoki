@@ -22,6 +22,11 @@
     `{"op": "P", "left": "3", "right": "4"}`
     - GET:  localhost:8080/api/mov
 
+    - GET localhost:8080/fib/9
+    this require a separate "microservice" to help solve fibonacci number
+    https://github.com/victorlee0505/DummySpring.git (run this app as is.)
+    to simulate call stack and tracable by jaeger
+
 3. under project root
     $ cd docker
     $ docker-compose up
@@ -38,13 +43,14 @@ This stack has multiple services
 The services above are used by Grafana to visualize data.
 
 ## GUI
-This is where Grafana is used
 
+- access Jaeger: http://localhost:16686/
+    This is where you can trace a distributed service (group of microservices)(GET localhost:8080/fib/9)
+
+This is where Grafana is used
 - acess Grafana GUI: http://localhost:3000/
     login: admin, admin
 
     you should see 2 Dashboards.
 
-
-- access Jaeger: http://localhost:16686/
-    This is where you can trace a distributed service (group of microservices)
+- in Discover, you can pick different datasource, try choose jaeger, you will see something similar to jaeger UI.
